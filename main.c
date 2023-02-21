@@ -126,7 +126,7 @@ char* readString(FILE* fp){
             char* tmp = realloc(str, sizeof(char)*size);
             if (tmp == NULL) {
                 free(str);
-                exit_with_massage("ERROR: could not allocate memmory for input string", 1);
+                exit_with_massage("ERROR: could not allocate memory for input string", 1);
             }
             str = tmp;
         }
