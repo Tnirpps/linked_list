@@ -17,7 +17,7 @@ typedef struct {
     types type;
 } list;
              
-list*        ListCreate   (types type);
+list         ListCreate   (types type);
 void         ListPushBack (const void* elem, list* lst);
 unsigned int ListCount    (const void* elem, const list* lst);
 void         ListErase    (const void* elem, list* lst);
@@ -25,3 +25,4 @@ void         ListPrint    (const list* lst);
 void         ListDestroy  (list* lst);
 
 #endif // LIST_H
+

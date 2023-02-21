@@ -9,6 +9,10 @@
 void usage() {
     printf("1) push back\t 2) erase\t 3) count\t 0) exit\n");
 }
+void exit_with_massage(const char* msg, int status) {
+    fprintf(stderr, "%s\n", msg);
+    exit(status);
+}
 
 #define INTEGER 1
 #define DOUBLE  2
@@ -16,101 +20,93 @@ void usage() {
 
 /* define type of data in List*/
 #ifndef TYPEOFLIST
- #define TYPEOFLIST  (DOUBLE)
+ #define TYPEOFLIST  (STRING)
 #endif
 
 #if TYPEOFLIST == INTEGER
 
 void loop() {
-    list* l = ListCreate(Int);
+    list l = ListCreate(Int);
     int q;
     int x;
     usage();
     while (1) {
         printf("enter query number: ");
         if (scanf("%d", &q) != 1) {
-            printf("Cannot read query\n");
-            return;
+            exit_with_massage("ERROR: could not read query number", 1);
         }
         if (q == 0) break;
         if (q == 1) {
             printf("enter value: ");
             if (scanf("%d", &x) != 1) {
-                printf("Cannot read value\n");
-                return;
+                exit_with_massage("ERROR: could not read value", 1);
             }
-            ListPushBack(&x, l);
+            ListPushBack(&x, &l);
         } else if (q == 2) {
             printf("enter value: ");
             if (scanf("%d", &x) != 1) {
-                printf("Cannot read value\n");
-                return;
+                exit_with_massage("ERROR: could not read value", 1);
             }
-            ListErase(&x, l);
+            ListErase(&x, &l);
         } else if (q == 3) {
             printf("enter value: ");
             if (scanf("%d", &x) != 1) {
-                printf("Cannot read value\n");
-                return;
+                exit_with_massage("ERROR: could not read value", 1);
             }
-            printf("Count of '%d': %u\n", x, ListCount(&x, l));
+            printf("Count of '%d': %u\n", x, ListCount(&x, &l));
         } else {
             printf("bad query numder\n");
             usage();
             continue;
         }
 
-        ListPrint(l);
+        ListPrint(&l);
     }
 
-    ListDestroy(l);
+    ListDestroy(&l);
 }
 
 #elif TYPEOFLIST == DOUBLE
 
 void loop() {
-    list* l = ListCreate(Double);
+    list l = ListCreate(Double);
     int q;
     double x;
     usage();
     while (1) {
         printf("enter query number: ");
         if (scanf("%d", &q) != 1) {
-            printf("Cannot read query\n");
-            return;
+            exit_with_massage("ERROR: could not read query number", 1);
         }
         if (q == 0) break;
         if (q == 1) {
             printf("enter value: ");
             if (scanf("%lf", &x) != 1) {
-                printf("Cannot read value\n");
-                return;
+                exit_with_massage("ERROR: could not read value", 1);
             }
-            ListPushBack(&x, l);
+            ListPushBack(&x, &l);
         } else if (q == 2) {
             printf("enter value: ");
             if (scanf("%lf", &x) != 1) {
-                printf("Cannot read value\n");
-                return;
+                exit_with_massage("ERROR: could not read value", 1);
             }
-            ListErase(&x, l);
+            ListErase(&x, &l);
         } else if (q == 3) {
             printf("enter value: ");
             if (scanf("%lf", &x) != 1) {
-                printf("Cannot read value\n");
-                return;
+                exit_with_massage("ERROR: could not read value", 1);
             }
-            printf("Count of '%lf': %u\n", x, ListCount(&x, l));
+            printf("Count of '%lf': %u\n", x, ListCount(&x, &l));
         } else {
             printf("bad query numder\n");
             usage();
             continue;
         }
 
-        ListPrint(l);
+        ListPrint(&l);
     }
 
-    ListDestroy(l);
+    ListDestroy(&l);
 }
 
 #elif TYPEOFLIST == STRING
@@ -130,8 +126,7 @@ char* readString(FILE* fp){
             char* tmp = realloc(str, sizeof(char)*size);
             if (tmp == NULL) {
                 free(str);
-                printf("Cannot read string\n");
-                exit(1);
+                exit_with_massage("ERROR: could not allocate memmory for input string", 1);
             }
             str = tmp;
         }
@@ -142,15 +137,14 @@ char* readString(FILE* fp){
 }
 
 void loop() {
-    list* l = ListCreate(String);
+    list l = ListCreate(String);
     int q;
     char* x;
     usage();
     while (1) {
         printf("enter query number: ");
         if (scanf("%d", &q) != 1) {
-            printf("Cannot read query\n");
-            return;
+            exit_with_massage("ERROR: could not read query number", 1);
         }
         // remove \n from stdin after scanf
         fgetc(stdin);
@@ -159,19 +153,19 @@ void loop() {
         if (q == 1) {
             printf("enter value: ");
             x = readString(stdin);
-            ListPushBack(x, l);
+            ListPushBack(x, &l);
             free(x);
             x = NULL;
         } else if (q == 2) {
             printf("enter value: ");
             x = readString(stdin);
-            ListErase(x, l);
+            ListErase(x, &l);
             free(x);
             x = NULL;
         } else if (q == 3) {
             printf("enter value: ");
             x = readString(stdin);
-            printf("Count of '%s': %u\n", x, ListCount(x, l));
+            printf("Count of '%s': %u\n", x, ListCount(x, &l));
             free(x);
             x = NULL;
         } else {
@@ -180,10 +174,10 @@ void loop() {
             continue;
         }
 
-        ListPrint(l);
+        ListPrint(&l);
     }
 
-    ListDestroy(l);
+    ListDestroy(&l);
 }
 
 #else

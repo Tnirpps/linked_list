@@ -5,45 +5,38 @@
 
 void* CreateValue(const void* value, types t) {
     void* ptr = NULL;
-    size_t len;
+    size_t size;
 
     switch (t) {
         case String:
             /* +1 for '\0' */
-            len = strlen((char*)value) + 1;
-            ptr = malloc(len * sizeof(char));
-            if (ptr == NULL) {
-                printf("Cannot allocate memory\n");
-                exit(1);
-            }
-            memcpy(ptr, value, len);
-            return ptr;
+            size = (strlen((char*)value) + 1) * sizeof(char);
+            break;
         case Int:
-            ptr = malloc(sizeof(int));
-            if (ptr == NULL) {
-                printf("Cannot allocate memory\n");
-                exit(1);
-            }
-            *(int*)ptr = *(int*)value;
-            return (void*) ptr;
+            size = sizeof(int);
+            break;
         case Double:
-            ptr = malloc(sizeof(double));
-            if (ptr == NULL) {
-                printf("Cannot allocate memory\n");
-                exit(1);
-            }
-            *(double*)ptr = *(double*)value;
-            return (void*) ptr;
+            size = sizeof(double);
+            break;
         default:
-            printf("Bad type for allocate memmory\n");
+            fprintf(stderr, "ERROR: invalid Node type\n");
             exit(1);
     }
+
+    ptr = malloc(size);
+    if (ptr == NULL) {
+        fprintf(stderr, "ERROR: could not allocate memory for the Node value\n");
+        exit(1);
+    }
+
+    memcpy(ptr, value, size);
+    return (void*) ptr;
 }
 
 Node* NodeCreate(const void* value, types type) {
     Node* n = malloc(sizeof(Node));
     if (n == NULL) {
-        printf("Cannot allocate memory\n");
+        fprintf(stderr, "ERROR: could not allocate memory for the Node\n");
         exit(1);
     }
     
@@ -58,14 +51,11 @@ void NodeDestroy(Node* n) {
     free(n);
 }
 
-list*  ListCreate(types type) {
-    list* l = malloc(sizeof(list));
-    if (l == NULL) {
-        printf("Cannot allocate memory\n");
-        exit(1);
-    }
-    l->head = NULL;
-    l->type = type;
+list  ListCreate(types type) {
+    list l = {
+        .head = NULL,
+        .type = type,
+    };
     return l;
 }
 
@@ -81,7 +71,8 @@ void PrintType(void* value, types type) {
             printf("%lf", *(double*)value);
             return;
         default:
-            printf("Bad type List\n");
+            printf("◊");
+            fprintf(stderr, "ERROR: invalid Node type\n");
     }
 }
 
@@ -125,7 +116,7 @@ int isEqual(const void* a, const void* b, types type) {
     case Double:
         return ((*(double*)a) == (*(double*)b));
     default:
-        printf("Bad Type of List\n");
+        fprintf(stderr, "ERROR: invalid Node type in comparing\n");
         exit(1);
     } 
 }
@@ -174,6 +165,5 @@ void ListDestroy(list* l) {
         ptr = ptr->next;
         NodeDestroy(tmp);
     }
-    free(l);
 }
 
