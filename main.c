@@ -9,7 +9,7 @@
 void usage() {
     printf("1) push back\t 2) erase\t 3) count\t 0) exit\n");
 }
-void exit_with_massage(const char* msg, int status) {
+void exit_with_message(const char* msg, int status) {
     fprintf(stderr, "%s\n", msg);
     exit(status);
 }
@@ -33,25 +33,25 @@ void loop() {
     while (1) {
         printf("enter query number: ");
         if (scanf("%d", &q) != 1) {
-            exit_with_massage("ERROR: could not read query number", 1);
+            exit_with_message("ERROR: could not read query number", 1);
         }
         if (q == 0) break;
         if (q == 1) {
             printf("enter value: ");
             if (scanf("%d", &x) != 1) {
-                exit_with_massage("ERROR: could not read value", 1);
+                exit_with_message("ERROR: could not read value", 1);
             }
             ListPushBack(&x, &l);
         } else if (q == 2) {
             printf("enter value: ");
             if (scanf("%d", &x) != 1) {
-                exit_with_massage("ERROR: could not read value", 1);
+                exit_with_message("ERROR: could not read value", 1);
             }
             ListErase(&x, &l);
         } else if (q == 3) {
             printf("enter value: ");
             if (scanf("%d", &x) != 1) {
-                exit_with_massage("ERROR: could not read value", 1);
+                exit_with_message("ERROR: could not read value", 1);
             }
             printf("Count of '%d': %u\n", x, ListCount(&x, &l));
         } else {
@@ -76,25 +76,25 @@ void loop() {
     while (1) {
         printf("enter query number: ");
         if (scanf("%d", &q) != 1) {
-            exit_with_massage("ERROR: could not read query number", 1);
+            exit_with_message("ERROR: could not read query number", 1);
         }
         if (q == 0) break;
         if (q == 1) {
             printf("enter value: ");
             if (scanf("%lf", &x) != 1) {
-                exit_with_massage("ERROR: could not read value", 1);
+                exit_with_message("ERROR: could not read value", 1);
             }
             ListPushBack(&x, &l);
         } else if (q == 2) {
             printf("enter value: ");
             if (scanf("%lf", &x) != 1) {
-                exit_with_massage("ERROR: could not read value", 1);
+                exit_with_message("ERROR: could not read value", 1);
             }
             ListErase(&x, &l);
         } else if (q == 3) {
             printf("enter value: ");
             if (scanf("%lf", &x) != 1) {
-                exit_with_massage("ERROR: could not read value", 1);
+                exit_with_message("ERROR: could not read value", 1);
             }
             printf("Count of '%lf': %u\n", x, ListCount(&x, &l));
         } else {
@@ -126,7 +126,7 @@ char* readString(FILE* fp){
             char* tmp = realloc(str, sizeof(char)*size);
             if (tmp == NULL) {
                 free(str);
-                exit_with_massage("ERROR: could not allocate memory for input string", 1);
+                exit_with_message("ERROR: could not allocate memory for input string", 1);
             }
             str = tmp;
         }
@@ -144,7 +144,7 @@ void loop() {
     while (1) {
         printf("enter query number: ");
         if (scanf("%d", &q) != 1) {
-            exit_with_massage("ERROR: could not read query number", 1);
+            exit_with_message("ERROR: could not read query number", 1);
         }
         // remove \n from stdin after scanf
         fgetc(stdin);
