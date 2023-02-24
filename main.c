@@ -41,19 +41,19 @@ void loop() {
             if (scanf("%d", &x) != 1) {
                 exit_with_message("ERROR: could not read value", 1);
             }
-            ListPushBack(&x, &l);
+            ListPushBack(&l, &x);
         } else if (q == 2) {
             printf("enter value: ");
             if (scanf("%d", &x) != 1) {
                 exit_with_message("ERROR: could not read value", 1);
             }
-            ListErase(&x, &l);
+            ListErase(&l, &x);
         } else if (q == 3) {
             printf("enter value: ");
             if (scanf("%d", &x) != 1) {
                 exit_with_message("ERROR: could not read value", 1);
             }
-            printf("Count of '%d': %u\n", x, ListCount(&x, &l));
+            printf("Count of '%d': %lu\n", x, ListCount(&l, &x));
         } else {
             printf("bad query numder\n");
             usage();
@@ -84,19 +84,19 @@ void loop() {
             if (scanf("%lf", &x) != 1) {
                 exit_with_message("ERROR: could not read value", 1);
             }
-            ListPushBack(&x, &l);
+            ListPushBack(&l, &x);
         } else if (q == 2) {
             printf("enter value: ");
             if (scanf("%lf", &x) != 1) {
                 exit_with_message("ERROR: could not read value", 1);
             }
-            ListErase(&x, &l);
+            ListErase(&l, &x);
         } else if (q == 3) {
             printf("enter value: ");
             if (scanf("%lf", &x) != 1) {
                 exit_with_message("ERROR: could not read value", 1);
             }
-            printf("Count of '%lf': %u\n", x, ListCount(&x, &l));
+            printf("Count of '%lf': %lu\n", x, ListCount(&l, &x));
         } else {
             printf("bad query numder\n");
             usage();
@@ -153,19 +153,19 @@ void loop() {
         if (q == 1) {
             printf("enter value: ");
             x = readString(stdin);
-            ListPushBack(x, &l);
+            ListPushBack(&l, x);
             free(x);
             x = NULL;
         } else if (q == 2) {
             printf("enter value: ");
             x = readString(stdin);
-            ListErase(x, &l);
+            ListErase(&l, x);
             free(x);
             x = NULL;
         } else if (q == 3) {
             printf("enter value: ");
             x = readString(stdin);
-            printf("Count of '%s': %u\n", x, ListCount(x, &l));
+            printf("Count of '%s': %lu\n", x, ListCount(&l, x));
             free(x);
             x = NULL;
         } else {

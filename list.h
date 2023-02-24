@@ -1,6 +1,9 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include <stdbool.h>
+#include <stdlib.h>
+
 typedef enum {
     String,
     Int,
@@ -18,9 +21,11 @@ typedef struct {
 } list;
              
 list         ListCreate   (types type);
-void         ListPushBack (const void* elem, list* lst);
-unsigned int ListCount    (const void* elem, const list* lst);
-void         ListErase    (const void* elem, list* lst);
+size_t       ListSize     (const list* lst);
+size_t       ListCount    (const list* lst, const void* elem);
+bool         ListContains (const list* lst, const void* elem);
+void         ListPushBack (list* lst, const void* elem);
+void         ListErase    (list* lst, const void* elem);
 void         ListPrint    (const list* lst);
 void         ListDestroy  (list* lst);
 

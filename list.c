@@ -1,5 +1,4 @@
 #include "list.h"
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -51,7 +50,7 @@ void NodeDestroy(Node* n) {
     free(n);
 }
 
-list  ListCreate(types type) {
+list ListCreate(types type) {
     list l = {
         .head = NULL,
         .type = type,
@@ -77,6 +76,10 @@ void PrintType(void* value, types type) {
 }
 
 void ListPrint(const list* l) {
+    if (l == NULL) {
+        return;
+    }
+
     Node* ptr = l->head;
     if (ptr != NULL) {
         printf("[ ");
@@ -93,7 +96,23 @@ void ListPrint(const list* l) {
     }
 }
 
-void ListPushBack(const void* elem, list* l) {
+size_t ListSize(const list* l) {
+    if (l == NULL) {
+        fprintf(stderr, "ERROR: could not get size of NULL-list\n");
+        exit(1);
+    }
+    
+    size_t size = 0;
+    Node* ptr = l->head;
+    while (ptr != NULL) {
+        ++size;
+        ptr = ptr->next;
+    }
+    return size;
+    
+}
+
+void ListPushBack(list* l, const void* elem) {
    if (l == NULL || elem == NULL) return;
    Node* ptr = l->head;
    if (ptr == NULL) {
@@ -121,21 +140,35 @@ int isEqual(const void* a, const void* b, types type) {
     } 
 }
 
-unsigned int ListCount(const void* elem, const list* l) {
-    if (l == NULL || elem == NULL) return 0;
-    if (l->head == NULL) return 0;
+bool ListContains(const list* l, const void* elem) {
+    if (l == NULL || elem == NULL) return false;
+
+    Node* ptr = l->head;
+    while (ptr != NULL) {
+        if (isEqual(ptr->value, elem, l->type)) {
+            return true;
+        }
+        ptr = ptr->next;
+    }
+
+    return false;
+}
+
+size_t ListCount(const list* l, const void* elem) {
+    if (l == NULL || elem == NULL || l->head == NULL) return 0;
     unsigned int res = 0;
+    
     Node* ptr = l->head;
     while (ptr != NULL) {
         res += isEqual(ptr->value, elem, l->type);
         ptr = ptr->next;
     }
+
     return res;
 }
 
-void ListErase(const void* elem, list* l) {
-    if (l == NULL || elem == NULL) return;
-    if (l->head == NULL) return;
+void ListErase(list* l, const void* elem) {
+    if (l == NULL || l->head == NULL || elem == NULL) return;
 
     Node* ptr = l->head;
     if (isEqual(ptr->value, elem, l->type)) {
